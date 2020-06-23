@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{%extends 'blog/base.html'%}
+{%block title_block%}
+<h1>Veeru's BLOG home page</h1>
+{%endblock%}
+{%block content_block%}
+<h1>veeru's BLOG</h1>
+{%if tag%}
+<h2>Post tagged with {{tag.name}}</h2>{%endif%}
+{%for post in post_list%}
+<h2><a href="{{post.get_absolute_url}}">{{post.title}}</a></h2>
+<p id='date'>published on {{post.publish}} by {{post.author|title}}</p>
+<p>Tags:
+  {%for tag in post.tags.all%}
+    <a href="{%url 'post_list_by_tag_name' tag.slug%}" class="btn btn-success">{{tag.name}}</a>
+    {%endfor%}</p>
+<!-- <p class="tpara">Tag:{{post.tags.all|join:','}}</p> -->
+{{post.body|truncatewords:30|linebreaks}}
+{%endfor%}
+{%include 'blog/pagination.html' with page=post_list%}
+{%endblock%}
